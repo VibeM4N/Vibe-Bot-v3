@@ -2,9 +2,8 @@ const {} = require("discord.js");
 
 module.exports = {
   name: "ping",
-  category: "info",
-  permissions: [],
-  run: async ({ client, message, args }) => {
+  category: "Info",
+  run: async (client, message, args) => {
     message.reply("Pong");
   },
 };

@@ -2,9 +2,9 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "play",
+  category: "Music",
   aliases: ["p"],
-  inVoiceChannel: true,
-  run: async ({ client, message, args }) => {
+  run: async ( client, message, args ) => {
     let voiceChannel = message.member.voice.channel;
     const songArg = args.join(" ");
 
@@ -15,10 +15,10 @@ module.exports = {
         embeds: [
           new MessageEmbed()
             .setColor("RED")
-            .setDescription(`❌ | Please enter a song url or query to search.`)
+            .setDescription(`❌ | Please enter a song url or name to search.`)
             .setFooter({
-              text: message.user.username,
-              iconURL: message.user.avatarURL({ dynamic: true }),
+              text: message.member.user.username,
+              iconURL: message.member.displayAvatarURL({ dynamic: true }),
             }),
         ],
       });

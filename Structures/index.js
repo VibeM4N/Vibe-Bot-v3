@@ -27,14 +27,13 @@ module.exports = client;
 const { loadEvents } = require("./Handlers/EventHandler");
 require("../Systems/GiveawaySys")(client);
 client.config = require("./config.json");
+loadEvents(client);
 
 client.events = new Collection();
 client.slashcommands = new Collection();
 client.commands = new Collection();
 
-loadEvents(client);
-client.loadCommands = (client, reload) =>
-  require("./Handlers/CommandHandler")(client, reload);
+client.loadCommands = (client, reload) => require("./Handlers/CommandHandler")(client, reload);
 client.loadCommands(client, false);
 
 client.login(client.config.Token);

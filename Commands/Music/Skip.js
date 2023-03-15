@@ -1,13 +1,70 @@
+const { MessageEmbed } = require("discord.js");
+
 module.exports = {
-    name: 'skip',
-    run: async ({client, message}) => {
-      const queue = client.distube.getQueue(message)
-      if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`)
+  name: "skip",
+  category: "Music",
+  run: async ( client, message, args ) => {
+    const queue = client.distube.getQueue(message);
+
+    if (!queue)
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`❌ | There is nothing in the queue right now!`)
+            .setFooter({
+              text: message.member.user.username,
+              iconURL: message.member.displayAvatarURL({ dynamic: true }),
+            }),
+        ],
+      });
+      
+    if (message.guild.me.voice.channel === message.member.voice.channel) {
+    } else {
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`❌ | I am not in the same Voice Channel as yours!`)
+            .setFooter({
+              text: message.member.user.username,
+              iconURL: message.member.displayAvatarURL({ dynamic: true }),
+            }),
+        ],
+      });
+    }
+
+    if (
+      message.guild.me.voice.channelId &&
+      voiceChannel.id !== message.guild.me.voice.channelId
+    ) {
+      const Embed = new MessageEmbed()
+        .setColor("RED")
+        .setDescription(
+          `I am already in another Voice Channel: <#${message.guild.me.voice.channelId}>`
+        )
+        .setFooter({
+          text: message.member.user.username,
+          iconURL: message.member.user.avatarURL({ dynamic: true }),
+        });
+      return message.channel.send({ embeds: [Embed] });
+    } else {
       try {
-        const song = await queue.skip()
-        message.channel.send(`${client.emotes.success} | Skipped! Now playing:\n${song.name}`)
+        const song = await queue.skip();
+        message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setColor("GREEN")
+              .setDescription(`❌ | Skipped! Now playing:\n${song.name}`)
+              .setFooter({
+                text: message.member.user.username,
+                iconURL: message.member.avatarURL({ dynamic: true }),
+              }),
+          ],
+        });
       } catch (e) {
-        message.channel.send(`${client.emotes.error} | ${e}`)
+        message.channel.send(`❌ | ${e}`);
       }
     }
-  }
+  },
+};

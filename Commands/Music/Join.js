@@ -2,8 +2,9 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "join",
+  category: "Music",
   aliases: ["move"],
-  run: async ({ client, message, args }) => {
+  run: async ( client, message, args ) => {
     let voiceChannel = message.member.voice.channel;
 
     if (!voiceChannel) {
