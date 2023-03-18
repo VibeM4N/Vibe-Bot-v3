@@ -13,7 +13,7 @@ module.exports = {
       .setImage(image);
 
     if (!message.channel.nsfw) {
-      return message.channel.send({
+      return await message.channel.send({
         embeds: [
           new MessageEmbed()
             .setColor("RED")

@@ -9,12 +9,12 @@ module.exports = {
   run: async (client, message, args) => {
     const image = await nsfw.pgif();
     const embed = new MessageEmbed()
-      .setTitle(`4K`)
+      .setTitle(`PGif`)
       .setColor("RANDOM")
       .setImage(image);
 
     if (!message.channel.nsfw) {
-      return message.channel.send({
+      return await message.channel.send({
         embeds: [
           new MessageEmbed()
             .setColor("RED")
