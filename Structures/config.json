@@ -1,5 +1,11 @@
 {
     "Token": "OTYyMDA3Mjc1NzMwNTA1NzY4.GRB-Dk.vLJog7JVz5NQ4lEFjSpi9sehFxte7YlA0vFVr8",
     "Database": "mongodb+srv://VibeM4N:VIBEOP%40123@vibem4n.bmrpr.mongodb.net/?retryWrites=true&w=majority",
-    "Prefix": "."
+    "Prefix": ".",
+    "Developers": "457796506481721353",
+
+    "EVERYONEID": "1004034623061381261",
+    "PAERNTID": "1020695822997925968",
+    "CHANNELID": "1020696043526049874",
+    "TRANSCRIPTSID": "1020696492886991030"
 }
