@@ -1,5 +1,6 @@
 const { Client, Message } = require("discord.js");
 const { Prefix, Developers } = require("../../Structures/config.json");
+
 module.exports = {
   name: "messageCreate",
   /**
