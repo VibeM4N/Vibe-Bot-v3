@@ -1,5 +1,5 @@
 const { Client, Message } = require("discord.js");
-
+const { Prefix, Developers } = require("../../Structures/config.json");
 module.exports = {
   name: "messageCreate",
   /**
@@ -7,9 +7,6 @@ module.exports = {
    * @param {Message} message
    */
   async execute(message, client) {
-    let Prefix = client.config.Prefix;
-    let developers = client.config.developers;
-
     if (!message.content.startsWith(Prefix) || message.author.bot) return;
 
     const args = message.content.slice(Prefix.length).trim().split(/ +/g);
@@ -22,7 +19,7 @@ module.exports = {
 
     if (!command) return;
 
-    if (command.devOnly && !developers.includes(message.member.id)) {
+    if (command.devOnly && !Developers.includes(message.member.id)) {
       return message.reply(
         "This command is only available to the bot developers!"
       );
