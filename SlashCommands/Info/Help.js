@@ -2,12 +2,15 @@ const {
   MessageEmbed,
   MessageActionRow,
   MessageSelectMenu,
+  CommandInteraction,
 } = require("discord.js");
 
 module.exports = {
   name: "help",
-  description:
-    "Displays a list of available commands or detailed information for a specific command.",
+  description: "Displays a list of available commands or detailed information for a specific command.",
+  /**
+   * @param {CommandInteraction} interaction
+   */
   async execute(interaction) {
     const { client } = interaction;
 
@@ -19,7 +22,9 @@ module.exports = {
       .setTitle("Help")
       .setDescription(
         "Please select a category to see the available commands."
-      );
+      )
+      .setTimestamp()
+      .setFooter({ text: interaction.user.username, avatarURL: interaction.user.avatarURL({ dynamic: true }) });
 
     const options = categories.map((category) => ({
       label: category,
@@ -44,7 +49,7 @@ module.exports = {
 
     const collector = reply.createMessageComponentCollector({
       filter,
-      time: 5000,
+      time: 30000,
     });
 
     try {
@@ -57,7 +62,8 @@ module.exports = {
         const categoryEmbed = new MessageEmbed()
           .setColor("#0099ff")
           .setTitle(`Commands in the ${category} category`)
-          .setTimestamp();
+          .setTimestamp()
+          .setFooter({ text: interaction.user.username, avatarURL: interaction.user.avatarURL({ dynamic: true }) });
 
         const commandFields = commands.map((command) => ({
           name: `${command.name}`,
@@ -69,7 +75,7 @@ module.exports = {
         await i.update({ embeds: [categoryEmbed], components: [row] });
       });
     } catch (err) {
-      console.log(err);
+      throw err;
     }
     try {
       collector.on("end", async () => {
@@ -77,11 +83,14 @@ module.exports = {
           .setCustomId("help-select")
           .setPlaceholder("Select a category")
           .setOptions(options)
+          .setDisabled(true);
 
-          await reply.edit({components: [disabledSelectMenu]})
+        const disabledRow = new MessageActionRow().addComponents(disabledSelectMenu);
+
+        await reply.edit({ components: [disabledRow] })
       });
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   },
 };
