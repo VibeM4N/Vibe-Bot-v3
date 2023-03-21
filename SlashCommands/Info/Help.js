@@ -24,7 +24,7 @@ module.exports = {
         "Please select a category to see the available commands."
       )
       .setTimestamp()
-      .setFooter({ text: interaction.user.username, avatarURL: interaction.user.avatarURL({ dynamic: true }) });
+      .setFooter({ text: interaction.user.username, iconURL: interaction.user.avatarURL({ dynamic: true }) });
 
     const options = categories.map((category) => ({
       label: category,
