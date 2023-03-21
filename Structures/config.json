@@ -3,9 +3,6 @@
     "Database": "mongodb+srv://VibeM4N:VIBEOP%40123@vibem4n.bmrpr.mongodb.net/?retryWrites=true&w=majority",
     "Prefix": ".",
     "Developers": "457796506481721353",
-
-    "EVERYONEID": "1004034623061381261",
-    "PAERNTID": "1020695822997925968",
-    "CHANNELID": "1020696043526049874",
-    "TRANSCRIPTSID": "1020696492886991030"
+    "BotInvite": "https://discord.com/api/oauth2/authorize?client_id=962007275730505768&permissions=378459515990&scope=bot%20applications.commands",
+    "SupportServerInvite": "https://discord.gg/ES58myH8Sr"
 }
