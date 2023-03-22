@@ -28,7 +28,7 @@ module.exports = {
     const Amount = options.getInteger("amount");
     const User = options.getUser("user");
 
-    const Messages = await channel.messages.fetch();
+    const Messages = await channel.messages.fetch({ limit: Amount });
 
     const Response = new MessageEmbed().setColor("BLURPLE");
 
@@ -41,12 +41,27 @@ module.exports = {
         ],
         ephemeral: true,
       });
-    } else if (Amount <= 100) {
+    }
+    
+    if (Amount < 1) {
+      return interaction.reply({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(
+              `The amount of messages to clear must be greater or equal to 1`
+            ),
+        ],
+        ephemeral: true,
+      });
+    }
+    
+    if (Amount <= 100 && Amount >= 1) {
       if (User) {
         let i = 0;
         const filtered = [];
         (await Messages).filter((m) => {
-          if (m.author.id === User.id && Amount > 1) {
+          if (m.author.id === User.id) {
             filtered.push(m);
             i++;
           }
@@ -65,7 +80,7 @@ module.exports = {
           );
           interaction.reply({ embeds: [Response] });
         });
-      };
-    };
+      }
+    }
   },
 };
