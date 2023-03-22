@@ -23,34 +23,105 @@ module.exports = {
    * @param {CommandInteraction} interaction
    */
   async execute(interaction) {
-    const { options, member, user } = interaction;
+    const { options, guild, member } = interaction;
 
     const User = options.getMember("user");
     const Reason = options.getString("reason") || "No Reason Provided.";
 
-    const errEmbed = new MessageEmbed()
-      .setColor("RED")
-      .setFooter({
-        text: `${member.user.username + "#" + member.user.discriminator}`,
-        iconURL: member.user.avatarURL({ dynamic: true }),
-      });
+    const errEmbed = new MessageEmbed().setColor("RED").setFooter({
+      text: `${member.user.tag}`,
+      iconURL: member.displayAvatarURL({ dynamic: true }),
+    });
 
-    if (!User)
+    if (!member.permissions.has("KICK_MEMBERS")) {
       return interaction.reply({
         embeds: [
-          errEmbed.setDescription("You have not mentioned the user to kick!"),
+          errEmbed.setDescription(
+            `You do not have permission \`KICK_MEMBERS\` to kick a user!`
+          ),
+        ],
+        ephemeral: true,
+      });
+    }
+
+    if (User === guild.me) {
+      return interaction.reply({
+        embeds: [errEmbed.setDescription("❌ | YOU CANNOT KICK ME!")],
+        ephemeral: true,
+      });
+    }
+
+    if (member === User) {
+      return interaction.reply({
+        embeds: [
+          errEmbed
+            .setDescription(`You cannot kick yourself!`)
+            .setFooter({
+              text: `Dumbo`,
+              iconURL: member.displayAvatarURL({ dynamic: true }),
+            }),
+        ],
+        ephemeral: true,
+      });
+    }
+
+    if (guild.me.roles.highest.position < User.roles.highest.position) {
+      return interaction.reply({
+        embeds: [
+          errEmbed.setDescription(`❌ | The user has a higher role than me!`),
+        ],
+        ephemeral: true,
+      });
+    }
+
+    if (member.roles.highest.position < User.roles.highest.position) {
+      return interaction.reply({
+        embeds: [
+          errEmbed.setDescription(
+            `❌ | The user you are trying to kick has a higher than you!`
+          ),
+        ],
+        ephemeral: true,
+      });
+    }
+
+    try {
+      await guild.members.kick(User, { reason: Reason });
+      interaction.reply({
+        embeds: [
+          new MessageEmbed()
+            .setColor("GREEN")
+            .setDescription(
+              `${User} has been kicked for the reason: \`${Reason}\``
+            )
+            .setFooter({
+              text: `Kicked by: ${member.user.tag}`,
+              iconURL: member.displayAvatarURL({ dynamic: true }),
+            }),
         ],
       });
-
-    // kick
-    try {
-      await interaction.guild.members.kick(User, Reason);
-      return interaction.reply({embeds: [new MessageEmbed().setColor("GREEN").setDescription(`${User} has been kicked for the reason: \`${Reason}\``).setFooter({text: `${user.username}`, iconURL: user.avatarURL({dynamic: true})})]});
     } catch (e) {
+      console.log(e);
       if (e) {
-        console.error(e);
-        return interaction.reply(`Failed to kick ${User.tag}`);
+        return interaction.reply({
+          content: `There was error while kicking ${User}`,
+          ephemeral: true,
+        });
       }
+    }
+
+    try {
+      await User.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(
+              `You have been kicked in \`${guild.name}\` for \`$${Reason}\``
+            ),
+        ],
+      });
+    } catch (err) {
+      throw err;
     }
   },
 };
