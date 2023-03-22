@@ -23,34 +23,105 @@ module.exports = {
    * @param {CommandInteraction} interaction
    */
   async execute(interaction) {
-    const { options, user } = interaction;
+    const { options, guild, member } = interaction;
 
     const User = options.getMember("user");
     const Reason = options.getString("reason") || "No Reason Provided.";
 
-    const errEmbed = new MessageEmbed()
-      .setColor("RED")
-      .setFooter({
-        text: `${user.username + "#" + user.discriminator}`,
-        iconURL: user.avatarURL({ dynamic: true }),
-      });
+    const errEmbed = new MessageEmbed().setColor("RED").setFooter({
+      text: `${member.user.tag}`,
+      iconURL: member.displayAvatarURL({ dynamic: true }),
+    });
 
-    if (!User)
+    if (!member.permissions.has("BAN_MEMBERS")) {
       return interaction.reply({
         embeds: [
-          errEmbed.setDescription("You have not mentioned the user to kick!"),
+          errEmbed.setDescription(
+            `You do not have permission \`BAN_MEMBERS\` to ban a user!`
+          ),
+        ],
+        ephemeral: true,
+      });
+    }
+
+    if (User === guild.me) {
+      return interaction.reply({
+        embeds: [errEmbed.setDescription("❌ | YOU CANNOT BAN ME!")],
+        ephemeral: true,
+      });
+    }
+
+    if (member === User) {
+      return interaction.reply({
+        embeds: [
+          errEmbed
+            .setDescription(`You cannot ban yourself!`)
+            .setFooter({
+              text: `Dumbo`,
+              iconURL: member.displayAvatarURL({ dynamic: true }),
+            }),
+        ],
+        ephemeral: true,
+      });
+    }
+
+    if (guild.me.roles.highest.position < User.roles.highest.position) {
+      return interaction.reply({
+        embeds: [
+          errEmbed.setDescription(`❌ | The user has a higher role than me!`),
+        ],
+        ephemeral: true,
+      });
+    }
+
+    if (member.roles.highest.position < User.roles.highest.position) {
+      return interaction.reply({
+        embeds: [
+          errEmbed.setDescription(
+            `❌ | The user you are trying to ban has a higher than you!`
+          ),
+        ],
+        ephemeral: true,
+      });
+    }
+
+    try {
+      await guild.members.ban(User, { reason: Reason });
+      interaction.reply({
+        embeds: [
+          new MessageEmbed()
+            .setColor("GREEN")
+            .setDescription(
+              `${User} has been banned for the reason: \`${Reason}\``
+            )
+            .setFooter({
+              text: `Banned by: ${member.user.tag}`,
+              iconURL: member.displayAvatarURL({ dynamic: true }),
+            }),
         ],
       });
-
-    // kick
-    try {
-      await interaction.guild.members.ban(User, Reason);
-      return interaction.reply({embeds: [new MessageEmbed().setColor("GREEN").setDescription(`${User} has been kicked for the reason: \`${Reason}\``).setFooter({text: `${user.username}`, iconURL: user.avatarURL({dynamic: true})})]});
     } catch (e) {
+      console.log(e);
       if (e) {
-        console.error(e);
-        return interaction.reply({content: `Failed to ban ${User.tag}`, ephemeral: true});
+        return interaction.reply({
+          content: `There was error while banning ${User}`,
+          ephemeral: true,
+        });
       }
+    }
+
+    try {
+      await User.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(
+              `You have been banned in \`${guild.name}\` for \`$${Reason}\``
+            ),
+        ],
+      });
+    } catch (err) {
+      throw err;
     }
   },
 };
