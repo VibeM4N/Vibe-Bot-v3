@@ -102,7 +102,7 @@ module.exports = {
       const Description = options.getString("description");
       const Button = options.getString("button");
 
-      const Emoji = options.getString("emoji") || "";
+      const Emoji = options.getString("emoji").trimEnd() || "";
 
       await DB.findOneAndUpdate(
         { GuildID: guild.id },
@@ -139,7 +139,7 @@ module.exports = {
         .get(Channel.id)
         .send({ embeds: [Embed], components: [Buttons] });
 
-      interaction.reply({ content: "done", ephemeral: true });
+      interaction.reply({ content: "Created a Ticket", ephemeral: true });
     } catch (err) {
       // console.log(err);
       const errEmbed = new MessageEmbed()
