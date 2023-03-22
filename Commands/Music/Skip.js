@@ -5,6 +5,7 @@ module.exports = {
   category: "Music",
   run: async ( client, message, args ) => {
     const queue = client.distube.getQueue(message);
+    let voiceChannel = message.member.voice.channel;
 
     if (!queue)
       return message.channel.send({
@@ -55,7 +56,7 @@ module.exports = {
           embeds: [
             new MessageEmbed()
               .setColor("GREEN")
-              .setDescription(`❌ | Skipped! Now playing:\n${song.name}`)
+              .setDescription(`✅ | Skipped! Now playing:\n${song.name}`)
               .setFooter({
                 text: message.member.user.username,
                 iconURL: message.member.avatarURL({ dynamic: true }),
@@ -63,7 +64,7 @@ module.exports = {
           ],
         });
       } catch (e) {
-        message.channel.send(`❌ | ${e}`);
+        message.channel.send(`❌ | An error occurred while running this command!`);
       }
     }
   },
