@@ -68,7 +68,7 @@ module.exports = {
     if (guild.me.roles.highest.position < User.roles.highest.position) {
       return interaction.reply({
         embeds: [
-          errEmbed.setDescription(`❌ | The user has a higher role than me!`),
+          errEmbed.setDescription(`❌ | The user has a higher position than me!`),
         ],
         ephemeral: true,
       });
@@ -78,7 +78,7 @@ module.exports = {
       return interaction.reply({
         embeds: [
           errEmbed.setDescription(
-            `❌ | The user you are trying to ban has a higher than you!`
+            `❌ | The user you are trying to ban has a higher position than you!`
           ),
         ],
         ephemeral: true,
