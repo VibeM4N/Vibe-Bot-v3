@@ -23,14 +23,25 @@ module.exports = {
    * @param {CommandInteraction} interaction
    */
   async execute(interaction) {
-    const { channel, options } = interaction;
+    const { channel, options, member } = interaction;
 
     const Amount = options.getInteger("amount");
     const User = options.getUser("user");
 
-    const Messages = await channel.messages.fetch({ limit: Amount });
-
     const Response = new MessageEmbed().setColor("BLURPLE");
+
+    if (!member.permissions.has("MANAGE_MESSAGES")) {
+      return interaction.reply({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(
+              `You do not have the permission \`MANAGE_MESSAGES\` to use this command!`
+            ),
+        ],
+        ephemeral: true,
+      });
+    }
 
     if (Amount > 100) {
       return interaction.reply({
@@ -42,7 +53,7 @@ module.exports = {
         ephemeral: true,
       });
     }
-    
+
     if (Amount < 1) {
       return interaction.reply({
         embeds: [
@@ -55,8 +66,10 @@ module.exports = {
         ephemeral: true,
       });
     }
-    
-    if (Amount <= 100 && Amount >= 1) {
+
+    try {
+      const Messages = await channel.messages.fetch({ limit: Amount });
+
       if (User) {
         let i = 0;
         const filtered = [];
@@ -81,6 +94,18 @@ module.exports = {
           interaction.reply({ embeds: [Response] });
         });
       }
+    } catch (err) {
+      console.log(err);
+      return interaction.reply({
+        embeds: [
+          new MessageEmbed()
+            .setColor("RED")
+            .setDescription(
+              `❌ | There was an error while runnning this command.`
+            ),
+        ],
+        ephemeral: true,
+      });
     }
   },
 };
