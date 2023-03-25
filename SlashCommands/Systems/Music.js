@@ -104,11 +104,11 @@ module.exports = {
       });
 
     if (
-      guild.me.voice.channelId &&
-      VoiceChannel.id !== guild.me.voice.channelId
+      guild.members.me.voice.channelId &&
+      VoiceChannel.id !== guild.members.me.voice.channelId
     )
       return interaction.reply({
-        content: `I am playing music in <#${guild.me.voice.channelId}>`,
+        content: `I am playing music in <#${guild.members.me.voice.channelId}>`,
         ephemeral: true,
       });
 
