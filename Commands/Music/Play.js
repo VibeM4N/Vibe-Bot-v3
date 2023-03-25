@@ -38,13 +38,13 @@ module.exports = {
     }
 
     if (
-      message.guild.me.voice.channelId &&
-      voiceChannel.id !== message.guild.me.voice.channelId
+      message.guild.members.me.voice.channelId &&
+      voiceChannel.id !== message.guild.members.me.voice.channelId
     ) {
       const Embed = new MessageEmbed()
         .setColor("RED")
         .setDescription(
-          `I am already in another Voice Channel: <#${message.guild.me.voice.channelId}>`
+          `I am already in another Voice Channel: <#${message.guild.members.me.voice.channelId}>`
         )
         .setFooter({
           text: message.member.user.username,
@@ -56,17 +56,7 @@ module.exports = {
         textChannel: channel,
         member,
       });
-      // return message.channel.send({
-      //   embeds: [
-      //     new MessageEmbed()
-      //       .setColor("BLURPLE")
-      //       .setDescription(`🎶 | Ready To Play Some Music!`)
-      //       .setFooter({
-      //         text: message.member.user.username,
-      //         iconURL: message.member.user.avatarURL({ dynamic: true }),
-      //       }),
-      //   ],
-      // });
+     
     }
   },
 };

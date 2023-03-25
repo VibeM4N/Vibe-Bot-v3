@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
   name: "volume",
   category: "Music",
-  aliases: ["v", "set-volume", "set-v"],
+  aliases: ["v", "set-volume", "set-v", "vol"],
   run: async (client, message, args) => {
     const queue = client.distube.getQueue(message);
     const ErrEmbed = new MessageEmbed().setColor("RED");
@@ -23,13 +23,13 @@ module.exports = {
     }
 
     if (
-      message.guild.me.voice.channelId &&
-      voiceChannel.id !== message.guild.me.voice.channelId
+      message.guild.members.me.voice.channelId &&
+      voiceChannel.id !== message.guild.members.me.voice.channelId
     ) {
       const Embed = new MessageEmbed()
         .setColor("RED")
         .setDescription(
-          `I am in another Voice Channel: <#${message.guild.me.voice.channelId}>`
+          `I am in another Voice Channel: <#${message.guild.members.me.voice.channelId}>`
         )
         .setFooter({
           text: message.member.user.username,

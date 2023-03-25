@@ -20,15 +20,15 @@ module.exports = {
         ],
       });
     }
-
+    
     if (
-      message.guild.me.voice.channelId &&
-      voiceChannel.id !== message.guild.me.voice.channelId
+      message.guild.members.me.voice.channelId &&
+      voiceChannel.id !== message.guild.members.me.voice.channelId
     ) {
       const Embed = new MessageEmbed()
         .setColor("RED")
         .setDescription(
-          `I am already in another Voice Channel: <#${message.guild.me.voice.channelId}>`
+          `I am already in another Voice Channel: <#${message.guild.members.me.voice.channelId}>`
         )
         .setFooter({
           text: message.member.user.username,
@@ -36,8 +36,8 @@ module.exports = {
         });
       return message.channel.send({ embeds: [Embed] });
     } else if (
-      message.guild.me.voice.channelId &&
-      voiceChannel.id === message.guild.me.voice.channelId
+      message.guild.members.me.voice.channelId &&
+      voiceChannel.id === message.guild.members.me.voice.channelId
     ) {
       return message.channel.send({
         emebds: [
