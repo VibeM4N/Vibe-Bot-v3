@@ -44,7 +44,7 @@ module.exports = {
       });
     }
 
-    if (User === guild.me) {
+    if (User === guild.members.me) {
       return interaction.reply({
         embeds: [errEmbed.setDescription("❌ | YOU CANNOT KICK ME!")],
         ephemeral: true,
@@ -65,7 +65,7 @@ module.exports = {
       });
     }
 
-    if (guild.me.roles.highest.position < User.roles.highest.position) {
+    if (guild.members.me.roles.highest.position < User.roles.highest.position) {
       return interaction.reply({
         embeds: [
           errEmbed.setDescription(`❌ | The user has a higher position than me!`),
@@ -86,7 +86,7 @@ module.exports = {
     }
 
     try {
-      await guild.members.kick(User, { reason: Reason });
+      await guild.members.members.kick(User, { reason: Reason });
       interaction.reply({
         embeds: [
           new MessageEmbed()
