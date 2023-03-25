@@ -1,8 +1,9 @@
 {
-    "Token": "OTYyMDA3Mjc1NzMwNTA1NzY4.GRB-Dk.vLJog7JVz5NQ4lEFjSpi9sehFxte7YlA0vFVr8",
-    "Database": "mongodb+srv://VibeM4N:VIBEOP%40123@vibem4n.bmrpr.mongodb.net/?retryWrites=true&w=majority",
-    "Prefix": ".",
-    "Developers": "457796506481721353",
-    "BotInvite": "https://discord.com/api/oauth2/authorize?client_id=962007275730505768&permissions=378459515990&scope=bot%20applications.commands",
-    "SupportServerInvite": "https://discord.gg/ES58myH8Sr"
+  "Token": "OTYyMDA3Mjc1NzMwNTA1NzY4.GRB-Dk.vLJog7JVz5NQ4lEFjSpi9sehFxte7YlA0vFVr8",
+  "OPENAI_API_KEY": "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",
+  "Database": "mongodb+srv://VibeM4N:VIBEOP%40123@vibem4n.bmrpr.mongodb.net/?retryWrites=true&w=majority",
+  "Prefix": ".",
+  "Developers": "457796506481721353",
+  "BotInvite": "https://discord.com/api/oauth2/authorize?client_id=962007275730505768&permissions=378459515990&scope=bot%20applications.commands",
+  "SupportServerInvite": "https://discord.gg/ES58myH8Sr"
 }

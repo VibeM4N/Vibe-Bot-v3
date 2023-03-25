@@ -22,6 +22,7 @@ client.distube = new DisTube(client, {
   youtubeDL: false,
   updateYouTubeDL: false,
 });
+
 module.exports = client;
 
 const { loadEvents } = require("./Handlers/EventHandler");
