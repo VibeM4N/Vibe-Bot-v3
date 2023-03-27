@@ -86,7 +86,7 @@ module.exports = {
     }
 
     try {
-      await guild.members.members.kick(User, { reason: Reason });
+      await guild.members.kick(User, { reason: Reason });
       interaction.reply({
         embeds: [
           new MessageEmbed()

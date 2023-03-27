@@ -86,7 +86,7 @@ module.exports = {
     }
 
     try {
-      await guild.members.members.ban(User, { reason: Reason });
+      await guild.members.ban(User, { reason: Reason });
       interaction.reply({
         embeds: [
           new MessageEmbed()
