@@ -1,70 +1,3 @@
-// const { CommandInteraction, MessageEmbed } = require("discord.js");
-
-// module.exports = {
-//   name: "role",
-//   description: "Add the specified role to the user.",
-//   options: [
-//     {
-//       name: "user",
-//       description: "Select the user you want to add the role to.",
-//       type: "USER",
-//       required: true,
-//     },
-//     {
-//       name: "role",
-//       description: "Select the role you want to add to add to the user",
-//       type: "ROLE",
-//       required: true,
-//     },
-//   ],
-//   /**
-//    *
-//    * @param {CommandInteraction} interaction
-//    */
-//   async(interaction) {
-//     const { options, member } = interaction;
-//     const User = options.getMember("user");
-//     const Role = options.getRole("role");
-
-//     const errEmbed = new MessageEmbed().setColor("RED");
-
-//     if (!User && !Role) {
-//       return interaction.reply({
-//         embeds: [
-//           errEmbed.setDescription(`You must specify the user and the role!`),
-//         ],
-//       });
-//     }
-
-//     if(User.roles.highest.position > member.roles.highest.position){
-//         return interaction.reply({embeds: [err]})
-//     }
-//     if (member.permissions.has("MANAGE_ROLES")) {
-//       return interaction.reply({
-//         embeds: [
-//           errEmbed.setDescription(
-//             `You do not have the permission \`MANAGE_ROLES\` to use this command!`
-//           ),
-//         ],
-//       });
-//     }
-
-//     try {
-//       User.roles.add(Role);
-//     } catch (err) {
-//       interaction.reply({
-//         embeds: [
-//           errEmbed.setDescription(
-//             `There was an error whhile running this command!`
-//           ),
-//         ],
-//       });
-//     }
-//   },
-// };
-
-// commands/role.js
-
 const { CommandInteraction, MessageEmbed } = require("discord.js");
 
 module.exports = {
@@ -319,8 +252,8 @@ module.exports = {
         break;
       case "create":
         const roleName = interaction.options.getString("name");
-        let roleColor = interaction.options.getString("color").toLowerCase();
-        const roleMentionable = interaction.options.getBoolean("mentionable");
+        var roleColor = interaction.options.getString("color") ? interaction.options.getString("color").toLowerCase() : "#000000"
+        const roleMentionable = interaction.options.getBoolean("mentionable") || false;
         const roleHoist = interaction.options.getBoolean("hoist") || false;
 
         const colorNamesToHex = {
@@ -361,7 +294,7 @@ module.exports = {
           await interaction.reply({
             embeds: [
               new MessageEmbed()
-                .setColor("GREEN")
+                .setColor(roleColor)
                 .setDescription(`Role **${roleName}** has been created.`),
             ],
             ephemeral: true,
