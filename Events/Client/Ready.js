@@ -1,5 +1,7 @@
 const { Client } = require("discord.js");
-const { loadCommands } = require("../../Structures/Handlers/SlashCommandHandler");
+const {
+  loadCommands,
+} = require("../../Structures/Handlers/SlashCommandHandler");
 const mongoose = require("mongoose");
 const { Database } = require("../../Structures/config.json");
 
@@ -27,7 +29,7 @@ module.exports = {
         console.log(err);
       });
 
-    console.log(`Client is now logged in as ${client.user.username}`);
     console.log(`Loaded ${client.commands.size} commands`);
+    console.log(`Client is now logged in as ${client.user.username}`);
   },
 };
